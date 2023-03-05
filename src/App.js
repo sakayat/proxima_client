@@ -18,6 +18,7 @@ const App = () => {
         <Route path="/signup" element={!user ? <SignUp /> : <Navigate to="/login" />} />
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
       </Routes>
+      <Footer />
     </div>
   );
 };

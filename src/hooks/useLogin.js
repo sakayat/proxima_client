@@ -9,7 +9,7 @@ export const useLogin = () => {
 
   const login = async (email, password) => {
     setLoading(true);
-    const res = await fetch("http://localhost:5000/api/user/login", {
+    const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

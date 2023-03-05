@@ -28,7 +28,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
     // there is no projects
 
     if (!project) {
-      const res = await fetch("http://localhost:5000/api/projects", {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/projects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
 
     if (project) {
       const res = await fetch(
-        `http://localhost:5000/api/projects/${project._id}`,
+        `${process.env.REACT_APP_BASE_URL}/api/projects/${project._id}`,
         {
           method: "PATCH",
           headers: {
