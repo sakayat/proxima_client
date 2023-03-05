@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useProjectContext } from "../hooks/useProjectContext";
 
 const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
@@ -12,9 +13,15 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
   const [emptyFiled, setEmptyFiled] = useState([]);
 
   const { dispatch } = useProjectContext();
+  const { user } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!user){
+      setError("You must be logged in");
+      return;
+    }
 
     const projectObj = { title, tech, budget, duration, manager, dev };
 
@@ -25,6 +32,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(projectObj),
       });
@@ -59,6 +67,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`
           },
           body: JSON.stringify(projectObj),
         }
@@ -71,7 +80,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
       }
 
       if (res.ok) {
-        setError(null)
+        setError(null);
         setIsModalOpen(false);
         setIsOverlay(false);
         dispatch({
@@ -80,7 +89,6 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
         });
       }
     }
-   
   };
 
   return (
@@ -103,7 +111,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
             placeholder="eg: e-commerce website"
             id="title"
             className={`outline-none border py-4 px-8 ${
-              emptyFiled.includes("title")
+              emptyFiled?.includes("title")
                 ? "border-red-500 bg-red-700/20"
                 : " bg-transparent"
             }`}
@@ -120,7 +128,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
             placeholder="eg: nodejs,react,redux etc"
             id="tech"
             className={`outline-none border py-4 px-8 ${
-              emptyFiled.includes("tech")
+              emptyFiled?.includes("tech")
                 ? "border-red-500 bg-red-700/20"
                 : "bg-transparent"
             }`}
@@ -137,7 +145,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
             placeholder="eg: 500 USD"
             id="budget"
             className={`outline-none border py-4 px-8 ${
-              emptyFiled.includes("budget")
+              emptyFiled?.includes("budget")
                 ? "border-red-500 bg-red-700/20"
                 : "bg-transparent"
             }`}
@@ -154,7 +162,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
             placeholder="eg: 2 weeks"
             id="duration"
             className={`outline-none border py-4 px-8 ${
-              emptyFiled.includes("duration")
+              emptyFiled?.includes("duration")
                 ? "border-red-500 bg-red-700/20"
                 : "bg-transparent"
             }`}
@@ -171,7 +179,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
             placeholder="eg: arunita"
             id="manager"
             className={`outline-none border py-4 px-8 ${
-              emptyFiled.includes("manager")
+              emptyFiled?.includes("manager")
                 ? "border-red-500 bg-red-700/20"
                 : "bg-transparent"
             }`}
@@ -188,7 +196,7 @@ const ProjectForm = ({ project, setIsModalOpen, setIsOverlay }) => {
             placeholder="eg: 5 developers"
             id="developers"
             className={`outline-none border py-4 px-8 ${
-              emptyFiled.includes("dev")
+              emptyFiled?.includes("dev")
                 ? "border-red-500 bg-red-700/20"
                 : "bg-transparent"
             }`}
