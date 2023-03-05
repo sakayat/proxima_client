@@ -32,7 +32,6 @@ const Home = () => {
     <div className="home grid lg:grid-cols-6 gap-10">
       <div className="project-wrapper lg:col-span-3 xl:col-span-4">
         <div className="flex flex-wrap gap-10">
-        <h1 className="text-2xl font-bold">All Projects</h1>
           {projects &&
             projects.map((project) => (
               <ProjectDetails key={project._id} project={project} />
